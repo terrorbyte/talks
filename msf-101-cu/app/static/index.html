@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="tui-bg-blue-black">
+
+<head>
+    <meta charset="UTF-8">
+    <title>YAMLValidator 9001</title>
+    <script src="css/dist/tuicss.min.js"></script>
+    <link rel="stylesheet" href="css/dist/tuicss.min.css">
+    <style>
+        .tui-window, .tui-panel {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .info-text {
+            margin-bottom: 10px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center" style="margin-top: 100px; margin-bottom: 100px">
+        <div class="info-text">Very Legit YAML Validator</div>
+        <div class="tui-panel cyan-168 black-255-text">
+            <div class="tui-panel-content">
+		    <b>NOTE:</b> This is horrendously dangerous code. <br> Please don't run it randomly 
+            </div>
+        </div>
+        <div class="info-text">Put your YAML code here to check if it's valid</div>
+        <div class="tui-window">
+            <fieldset class="tui-fieldset">
+                <legend class="center">ISVALIDYAML</legend>
+                <button class="tui-fieldset-button"><span class="green-255-text">↑</span></button>
+                <button class="tui-fieldset-button tui-fieldset-button-left"><span class="green-255-text">■</span></button>
+                <textarea id="yamlcontent" class="tui-textarea" style="width: 400px; height: 200px;">a: 1
+b:
+  c: 3
+  d: 4</textarea>
+		                <br>
+                <div class="tui-divider"></div>
+                <br>
+                <button class="tui-button purple-168 white-255-text" id="validate" >Validate</button>
+            </fieldset>
+        </div>
+    <div class="tui-overlap"></div>
+    <div id="modal" class="tui-modal">
+        <div class="tui-window red-168 left-align">
+            <fieldset class="tui-fieldset">
+                <legend class="red-255 yellow-255-text">Alert</legend>
+		<p id="isvalid">How did you even trigger this?</p>
+                <br><br>
+                <div class="tui-divider"></div>
+                <br>
+                <button class="tui-button cyan-168 white-255-text tui-modal-close-button right" data-modal="modal">close</button>
+            </fieldset>
+        </div>
+    </div>
+    </div>
+</body>
+<script>
+var modal = document.getElementById("modal");
+var button = document.getElementById("validate");
+var close = document.getElementsByClassName("tui-modal-close-button")[0];
+
+button.onclick = function() {
+	const xhr = new XMLHttpRequest();
+	xhr.open("POST", "/check", true);
+	
+	// Send the proper header information along with the request
+	var formData = new FormData();
+	var blob = new Blob([document.getElementById("yamlcontent").value], { type: "application/octet-stream" });
+	formData.append("yaml", blob, "yaml");
+	
+	xhr.onreadystatechange = () => {
+	  if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+	    document.getElementById("isvalid").textContent = xhr.responseText;
+  	    modal.style.display = "block";
+	  }
+	};
+	xhr.send(formData);
+}
+
+close.onclick = function() {
+  modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+} 
+</script>
+
+</html>
