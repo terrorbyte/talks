@@ -1,0 +1,140 @@
+Introduction to Metasploit
+
+$ whoami
+Cale Black
+
+- Navigation and modules
+- Exploitation
+- Meterpreter
+- Post exploitation
+- Development
+
+Obligatory legal warning about exploit tools
+
+Why Metasploit?
+ - Weaponization
+ - Lots of utilities
+ - Not just exploitation
+ - Community
+ - Flexible
+
+@img/msf-banner.png
+
+How MSF modules are laid out
+
+- Exploits
+- Post
+- Payloads
+- Auxiliary
+- Encoders
+- NOP
+- Evation
+
+Basic navigation
+
+Scenario
+ - 192.168.100.1 - Attacker
+ - 192.168.100.2 - Target
+
+@img/msf-01-portscan.png
+
+@img/msf-02-webapp.png
+
+PyYAML Digression
+ - Not everything is a CVE
+ - What do the docs say?
+ - Google
+
+blah blah blah PoC time
+
+TODO curl n friends
+
+Interacting w/ Modules
+ - search
+ - use
+ - back
+ - info
+ - show options
+ - loadpath
+ - edit
+ - reload
+
+Helpful Commands
+ - setg
+ - set RHOSTS file:
+ - CIDR 10.0.0.1/24
+ - set VERBOSE
+ - set HttpTrace true
+ - ^r, ^c, ^d
+
+Run a simple exploit
+ - check
+ - exploit
+ - targets
+
+Discussion of payloads
+
+@img/msf-03-pyyaml-exploit.png
+
+PAYLOADs
+ - Meterpreter
+ - Shells
+ - Contextual
+
+Meterpreter basics
+ - background
+  - sessions
+  - jobs
+ - use 
+ - fun!
+ - local commands
+
+Enumeration
+ - netstat
+ - ifconfig
+ - getuid
+ - shell
+
+@img/msf-04-netstat-networking.png
+
+Post modules
+
+@img/msf-05-meterpreter-post.png
+
+Turning $ to #
+
+Pivoting 
+
+@img/always-sunny.jpeg
+
+@img/msf-04-netstat-networking.png
+
+portfwd
+
+@img/msf-06-jmx-fail.png
+
+Why did it fail?
+ - VERBOSE
+ - edit
+
+Negotiated JMX Port
+
+Forward it!
+
+Ports:
+- 8009 - Payload listener
+- 8010 - Payload serving
+- 8011 - Forwarded JMX
+
+@img/msf-07-jmx-rooted.png
+
+@img/msf-08-shell-migrate.png
+
+@img/msf-09-ssh.png
+
+Questions?
+ 
+cale@hosakacorp.net
+ 
+Slides: https://hosakacorp.net/t/msf-101-cu.html 
+Talk: https://github.com/terrorbyte/talks/tree/main/msf-101-cu

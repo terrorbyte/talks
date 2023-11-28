@@ -44,5 +44,14 @@ $ nix-shell
 ```
 
 ## References
-https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure%20Deserialization/YAML.md#pyyaml
-curl 127.0.0.1:5000/check -X POST -F  yaml=@payloads/touch.yml
+
+MSF:
+
+- [https://www.offsec.com/metasploit-unleashed/](https://www.offsec.com/metasploit-unleashed/)
+- [https://docs.rapid7.com/metasploit/](https://docs.rapid7.com/metasploit/)* this has some MSF Pro content
+
+MSF Module Development:
+
+PyYAML:
+
+- https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure%20Deserialization/YAML.md#pyyaml

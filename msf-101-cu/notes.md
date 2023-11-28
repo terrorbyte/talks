@@ -18,6 +18,15 @@ PORT     STATE SERVICE
 Nmap done: 1 IP address (1 host up) scanned in 89.49 seconds
 ```
 
+## Database 
+
+```
+msfdb init --connection-string=postgresql://msf:metasploit-class-cu@127.0.0.1:5432/msf
+
+msf6 > db_connect msf:metasploit-class-cu@127.0.0.1/msf
+[*] Connected to Postgres data service: 127.0.0.1/msf
+```
+
 ## Load custom modules
 
 ```

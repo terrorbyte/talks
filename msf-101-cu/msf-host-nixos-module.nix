@@ -19,12 +19,24 @@ in {
 
   config = {
     services.postgresql = {
-      enable = true;
-      ensureDatabases = [ "${cfg.db}" ];
-      authentication = pkgs.lib.mkOverride 10 ''
-        #type database  DBuser  auth-method
-        local ${cfg.db}       all     trust
-      '';
-    };
+  enable = true;
+  package = pkgs.postgresql_15;
+  ensureDatabases = [ "msf" ];
+  enableTCPIP = true;
+  port = 5432;
+  settings.listen_addresses = lib.mkForce "127.0.0.1";
+  #settings = pkgs.lib.mkDefault {
+  #  "listen_addresses" = "127.0.0.1";
+  #};
+  authentication = pkgs.lib.mkOverride 10 ''
+  local all all              trust
+  host  all all 127.0.0.1/32 trust
+  host  all all ::1/128      trust
+'';
+  
+  initialScript = pkgs.writeText "backend-initScript" ''
+    CREATE ROLE msfadmin WITH LOGIN PASSWORD 'metasploit-class-cu' SUPERUSER;
+  '';
+};
   };
 }

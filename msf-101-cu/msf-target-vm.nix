@@ -51,6 +51,8 @@ let
     networking.firewall.interfaces."eth1".allowedTCPPorts = [ 8000 22 ];
     services.openssh.enable = true;
     systemd.services.vulnerableFlaskApp = {
+      path =
+        [ pkgs.bash pkgs.openssl pkgs.curl pkgs.coreutils-full pkgs.which ];
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       description = "Start the vulnerable flask application";
