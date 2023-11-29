@@ -1,5 +1,7 @@
 # Metasploit Framework Introduction
 
+An introduction and exploration of the Metasploit framework.
+
 ## Info
 
 Where: CU
@@ -7,10 +9,22 @@ When: 2023-11-30
 
 ## Documentation
 
+* `slides/` - HTML and [sent](https://tools.suckless.org/sent/) slides
+    * A copy will be hosted on [hosakacorp.net](https://hosakacorp.net/t/msf-101-cu.html)
+    * The slides are supposed to be thin, this is demo heavy
+* `payloads/` - All the modules used or customized for the demo and curl ones too
+* `msf-target-vm.nix` -
 
 ## Setting up test environment
 
 ### Host setup
+
+1. Setup networking - `host-networking.sh` - `./host-networking.sh poptart enp0s31f6`
+2. Install the postgresql NixOS module - `imports = [ ./msf-host-nixos-module.nix ];`
+3. Build the demo VM (see below)
+4. Drop into a configured shell - `nix-shell`
+5. Init the msf database `msfdb init --connection-string=postgresql://msfadmin:metasploit-class-cu@127.0.0.1:5432/postgres`
+6. Launch `msfconsole` [1] 
 
 ### Building demo VM
 
@@ -45,13 +59,15 @@ $ nix-shell
 
 ## References
 
-MSF:
-
-- [https://www.offsec.com/metasploit-unleashed/](https://www.offsec.com/metasploit-unleashed/)
 - [https://docs.rapid7.com/metasploit/](https://docs.rapid7.com/metasploit/)* this has some MSF Pro content
-
-MSF Module Development:
+- [https://www.offsec.com/metasploit-unleashed/](https://www.offsec.com/metasploit-unleashed/)
+- [https://docs.metasploit.com/api/](https://docs.metasploit.com/api/)
 
 PyYAML:
 
-- https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure%20Deserialization/YAML.md#pyyaml
+- [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure%20Deserialization/YAML.md#pyyaml](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Insecure%20Deserialization/YAML.md#pyyaml)
+
+## Notes
+
+[1] - weird issue with the generated config from msfdb, may require `msfconsole -y whatever` or modifying `~/.msf4/database.yml` to utilize the msfadmin cred vs the generated one that is triggering a stack trace
+

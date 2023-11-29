@@ -47,7 +47,10 @@ PyYAML Digression
 
 blah blah blah PoC time
 
-TODO curl n friends
+curl
+ - from PoC to payload
+ - curl.sh 
+ - custom module
 
 Interacting w/ Modules
  - search
