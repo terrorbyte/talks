@@ -18,6 +18,7 @@ import (
 
 	"github.com/brianvoe/gofakeit/v7"
 	prompt "github.com/c-bata/go-prompt"
+	"github.com/mattn/go-isatty"
 )
 
 //go:embed trash.ascii
@@ -74,6 +75,7 @@ var globalSection = []prompt.Suggest{
 	{Text: "getenv", Description: "get environment variable"},
 	{Text: "setenv", Description: "set environment variable"},
 	{Text: "back", Description: "return to root"},
+	{Text: "exit", Description: "exit"},
 }
 
 var rootSection = []prompt.Suggest{
@@ -446,6 +448,10 @@ func executor(in string) {
 		help()
 		return
 	}
+	if base == "exit" {
+		os.Exit(0)
+		return
+	}
 	if base == "back" {
 		LivePrefixState.IsEnable = false
 		LivePrefixState.CurrentSection = ""
@@ -566,6 +572,11 @@ func main() {
 	}
 	SessionState.Completion = true
 	fmt.Printf("Welcome to trash %s. Type `help` for command information\n", currentUser.Username)
+	if !isatty.IsTerminal(os.Stdout.Fd()) {
+		fmt.Println("trash requires a full tty")
+
+		return
+	}
 
 	p := prompt.New(
 		executor,
