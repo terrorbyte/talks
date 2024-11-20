@@ -17,12 +17,16 @@ import (
 	"time"
 
 	"github.com/brianvoe/gofakeit/v7"
-	prompt "github.com/c-bata/go-prompt"
+	prompt "github.com/confluentinc/go-prompt"
 	"github.com/mattn/go-isatty"
 )
 
 //go:embed trash.ascii
 var banner string
+
+//go:embed trash.1
+var manRoff string
+
 var TrashDir = os.Getenv("TRASHDIR")
 
 func init() {
@@ -39,6 +43,7 @@ func init() {
 		createDirs := func(name string, mode fs.FileMode) {
 			check(os.MkdirAll(name, mode))
 		}
+		createFile("trash.1", []byte(manRoff), 0o644)
 
 		createDirs("trashfiles/config", 0o755)
 		createDirs("trashfiles/nvram", 0o755)
@@ -357,8 +362,6 @@ func fileExecutor(in string) {
 		cat(args)
 	case "find":
 		find(args)
-	// TODO gawk https://gtfobins.github.io/gtfobins/gawk/#shell
-	// TODO combine write with https://gtfobins.github.io/gtfobins/wget/#shell
 	default:
 		fmt.Printf("files command %s not found\n", base)
 	}

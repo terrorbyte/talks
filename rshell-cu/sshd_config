@@ -1,0 +1,10 @@
+AuthorizedKeysFile	.ssh/authorized_keys
+AllowTcpForwarding yes
+GatewayPorts yes
+X11Forwarding no
+PermitUserEnvironment yes
+AcceptEnv TRASHDIR
+Subsystem	sftp	internal-sftp
+
+Match User user4
+	ForceCommand trash
