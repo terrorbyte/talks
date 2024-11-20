@@ -1,0 +1,179 @@
+Real World Restricted Shell Escapes
+
+$ whoami
+ 
+Cale "poptart" Black
+───────────────────────────────
+Initial Access Exploit Engineer
+Recovering Penetration Tester
+Working @ VulnCheck
+
+Agenda:
+- Why do these exist?
+- What types exist?
+- Specific real attack patterns
+
+Why do people have restricted shells?
+
+- Management interfaces
+  - Want to provide low-priv access (`enable`)
+- RPC or Data Passing
+- Do not want HTTP server overhead
+  - Not enough resources for HTTP
+
+Why am I targeting them specifically?
+- Uniquely designed
+- Almost never the same
+- Little subtle bugs lead to exploitation
+- Fun
+
+Types of restricted shells
+
+- Purpose built - rbash/rsh/etc.
+- Custom - Networking equipment & the like
+  - On top of other shells/rshells
+  - Fully custom
+
+What do they look like?
+
+/bin/trash demo
+
+Specific Attack Patterns
+- Primitives
+- Unsafe Invocation
+- Pagers & Editors
+- Embedded/IoT
+- Chaining Primitives
+- Hidden Commands
+- Attacking the Transport
+
+Thinking in Primitives:
+- Read
+- Write/Delete
+- Execute
+
+What does the shell provide?
+What error messages do you see?
+
+Unsafe Invocation
+- Interactive vs Login shells
+- Execution context
+  - Re-execute other shell
+  - Shell outs
+  - Flags
+  - Normal shell issues
+
+Remember your shell basics!
+
+Example: Shell Injection CVE-2018-5553
+Crestron DGE-100
+
+@/i/crestron-1.png
+
+@/i/crestron-2.png
+
+Example: trash Shell Injection
+
+Shell Interactivity & Context
+
+- Do not load bashrc/profile
+- Crashing behavior changes
+
+Example: Restricted Shell Loaded from bashrc
+
+Pagers & Editors
+
+Example: Man pages
+
+Environment Variables
+
+Example: CVE-2021-31581 - Akkadian Provisioning Manager
+
+@/i/akkadian-18-2.jpg
+
+@/i/akkadian-18-5.jpg
+
+@/i/akkadian-18-7.jpg
+
+@/i/akkadian-18-8.jpg
+
+Embedded Systems
+
+IoT/Embedded Restricted Commands
+- May not even be unix-like
+- Network debugging
+  - ping/traceroute/dns lookups
+- Interaction with NVRAM
+  - read/write
+
+Example: NVRAM read/write
+
+Attack the Transport
+- Telnet/Raw TCP - generally boring
+- SSH
+
+SSH Subtleties when Restricting
+- Difference between exec and tty open
+- Socket redirection
+- ForceCommand
+- Subsystems
+  - SFTP defaults
+
+Example: CVE-2021-31580 - Akkadian Provisioning Manager
+Combines "Interactive Bash" and SSH protocol knowledge
+
+@/i/akkadian-17.jpg
+
+@/i/akkadian-19.jpg
+
+@/i/akkadian-20.jpg
+
+@/i/akkadian-22.jpg
+
+@/i/akkadian-23-resize.jpg
+
+User Environment
+
+SFTP enabled
+
+Forced commands 
+
+Chain Primitives
+- Read + Write + Execute
+
+Example: Advanced LD_PRELOAD Chain
+
+Assisting Discovery
+- shellcheck - https://www.shellcheck.net/
+- Tcl - https://www.tcl-lang.org/ 
+- Expect - https://core.tcl-lang.org/expect/index
+
+Example: Expect scripts
+
+References / Contact
+ 
+███████████████████████████████
+█ ▄▄▄▄▄ █▀█ █▄▀█▀█ ▄▄██ ▄▄▄▄▄ █
+█ █   █ █▀▀▀█ ▀ ▄▄▀██ █ █   █ █
+█ █▄▄▄█ █▀ █▀▀▀▄▀ ██▄ █ █▄▄▄█ █
+█▄▄▄▄▄▄▄█▄▀ ▀▄█ ▀ █ █ █▄▄▄▄▄▄▄█
+█▄▄▄▄▄█▄▄▄▄▀▄▀ ▄█▀  ▀▀ ▀ ▀▄█▄▀█
+██▀█▄ ▄▄ ██▄█▀█▄ ▀▄█▀▀▄ ▄ ▀█▀██
+█▄▄▄▄▀ ▄ ▄▄▄█▄ ▄▄ ▄█ ▀▀▀▀▀▄▄█▀█
+█▄ ▄▀  ▄▄█▀█ ▄█▀ █▄ ▀▀▄█▄▀▄▄▀██
+█▀▄▀ ▀ ▄▄ ▄▄▄▀▄▄█▀▄█ █▀▀ ▀▄ █▀█
+█ █▄ █▀▄▄▀  █▀█▄▄▀▄▄██▄▀ ██▄▀██
+█▄█▄█▄█▄▄▀███▄▄▄██ ▀▀ ▄▄▄ ▀   █
+█ ▄▄▄▄▄ █▄▀▀ ▄█  ▀█   █▄█ ▄▄▀██
+█ █   █ █ ▀ ▄ ▄▀█▀▄▀█ ▄▄▄▄▀ ▀ █
+█ █▄▄▄█ █  ▄█▀█▄ ▀██▀▀▄ ▄  ▄ ██
+█▄▄▄▄▄▄▄█▄██▄█▄███▄█▄██▄███▄███
+  
+✉ cale@hosakacorp.net
+
+- https://github.com/terrorbyte/talks
+- http://www.phrack.org/issues/69/4.html
+- https://www.digitalocean.com/community/tutorials/expect-script-ssh-example-tutorial 
+- https://www.rapid7.com/blog/post/2018/06/12/r7-2018-15-cve-2018-5553-crestron-dge-100-console-command-injection-fixed/
+- https://www.rapid7.com/blog/post/2021/06/08/akkadian-provisioning-manager-multiple-vulnerabilities-disclosure/
+- https://gtfobins.github.io/

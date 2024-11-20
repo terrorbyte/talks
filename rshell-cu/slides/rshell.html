@@ -1,0 +1,193 @@
+<html>
+        <head>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width" />
+                <title>Real World Restricted Shell Escapes</title>
+                <link rel="stylesheet" href="slides.css" type="text/css" />
+        </head>
+        <body>
+	
+	<section id="start"><a class="next" href="#slide1"></a><a class="home" href="/"></a><pre>Real World Restricted Shell Escapes</pre>
+	</section>
+	<section id="slide1"><a class="prev" href="#slide0"></a><a class="restart" href="#start"></a><a class="next" href="#slide2"></a><a class="home" href="/"></a><pre>$ whoami
+ 
+Cale "poptart" Black
+───────────────────────────────
+Initial Access Exploit Engineer
+Recovering Penetration Tester
+Working @ VulnCheck</pre>
+	</section>
+	<section id="slide2"><a class="prev" href="#slide1"></a><a class="restart" href="#start"></a><a class="next" href="#slide3"></a><a class="home" href="/"></a><pre>Agenda:
+- Why do these exist?
+- What types exist?
+- Specific real attack patterns</pre>
+	</section>
+	<section id="slide3"><a class="prev" href="#slide2"></a><a class="restart" href="#start"></a><a class="next" href="#slide4"></a><a class="home" href="/"></a><pre>Why do people have restricted shells?</pre>
+	</section>
+	<section id="slide4"><a class="prev" href="#slide3"></a><a class="restart" href="#start"></a><a class="next" href="#slide5"></a><a class="home" href="/"></a><pre>- Management interfaces
+  - Want to provide low-priv access (`enable`)
+- RPC or Data Passing
+- Do not want HTTP server overhead
+  - Not enough resources for HTTP</pre>
+	</section>
+	<section id="slide5"><a class="prev" href="#slide4"></a><a class="restart" href="#start"></a><a class="next" href="#slide6"></a><a class="home" href="/"></a><pre>Why am I targeting them specifically?
+- Uniquely designed
+- Almost never the same
+- Little subtle bugs lead to exploitation
+- Fun</pre>
+	</section>
+	<section id="slide6"><a class="prev" href="#slide5"></a><a class="restart" href="#start"></a><a class="next" href="#slide7"></a><a class="home" href="/"></a><pre>Types of restricted shells</pre>
+	</section>
+	<section id="slide7"><a class="prev" href="#slide6"></a><a class="restart" href="#start"></a><a class="next" href="#slide8"></a><a class="home" href="/"></a><pre>- Purpose built - rbash/rsh/etc.
+- Custom - Networking equipment & the like
+  - On top of other shells/rshells
+  - Fully custom</pre>
+	</section>
+	<section id="slide8"><a class="prev" href="#slide7"></a><a class="restart" href="#start"></a><a class="next" href="#slide9"></a><a class="home" href="/"></a><pre>What do they look like?</pre>
+	</section>
+	<section id="slide9"><a class="prev" href="#slide8"></a><a class="restart" href="#start"></a><a class="next" href="#slide10"></a><a class="home" href="/"></a><pre>/bin/trash demo</pre>
+	</section>
+	<section id="slide10"><a class="prev" href="#slide9"></a><a class="restart" href="#start"></a><a class="next" href="#slide11"></a><a class="home" href="/"></a><pre>Specific Attack Patterns
+- Primitives
+- Unsafe Invocation
+- Pagers & Editors
+- Embedded/IoT
+- Chaining Primitives
+- Hidden Commands
+- Attacking the Transport</pre>
+	</section>
+	<section id="slide11"><a class="prev" href="#slide10"></a><a class="restart" href="#start"></a><a class="next" href="#slide12"></a><a class="home" href="/"></a><pre>Thinking in Primitives:
+- Read
+- Write/Delete
+- Execute</pre>
+	</section>
+	<section id="slide12"><a class="prev" href="#slide11"></a><a class="restart" href="#start"></a><a class="next" href="#slide13"></a><a class="home" href="/"></a><pre>What does the shell provide?
+What error messages do you see?</pre>
+	</section>
+	<section id="slide13"><a class="prev" href="#slide12"></a><a class="restart" href="#start"></a><a class="next" href="#slide14"></a><a class="home" href="/"></a><pre>Unsafe Invocation
+- Interactive vs Login shells
+- Execution context
+  - Re-execute other shell
+  - Shell outs
+  - Flags
+  - Normal shell issues</pre>
+	</section>
+	<section id="slide14"><a class="prev" href="#slide13"></a><a class="restart" href="#start"></a><a class="next" href="#slide15"></a><a class="home" href="/"></a><pre>Remember your shell basics!</pre>
+	</section>
+	<section id="slide15"><a class="prev" href="#slide14"></a><a class="restart" href="#start"></a><a class="next" href="#slide16"></a><a class="home" href="/"></a><pre>Example: Shell Injection CVE-2018-5553
+Crestron DGE-100</pre>
+	</section>
+	<section id="slide16"><a class="prev" href="#slide15"></a><a class="restart" href="#start"></a><a class="next" href="#slide17"></a><a class="home" href="/"></a><pre><img src='/i/crestron-1.png'/></pre>
+	</section>
+	<section id="slide17"><a class="prev" href="#slide16"></a><a class="restart" href="#start"></a><a class="next" href="#slide18"></a><a class="home" href="/"></a><pre><img src='/i/crestron-2.png'/></pre>
+	</section>
+	<section id="slide18"><a class="prev" href="#slide17"></a><a class="restart" href="#start"></a><a class="next" href="#slide19"></a><a class="home" href="/"></a><pre>Example: trash Shell Injection</pre>
+	</section>
+	<section id="slide19"><a class="prev" href="#slide18"></a><a class="restart" href="#start"></a><a class="next" href="#slide20"></a><a class="home" href="/"></a><pre>Shell Interactivity & Context</pre>
+	</section>
+	<section id="slide20"><a class="prev" href="#slide19"></a><a class="restart" href="#start"></a><a class="next" href="#slide21"></a><a class="home" href="/"></a><pre>- Do not load bashrc/profile
+- Crashing behavior changes</pre>
+	</section>
+	<section id="slide21"><a class="prev" href="#slide20"></a><a class="restart" href="#start"></a><a class="next" href="#slide22"></a><a class="home" href="/"></a><pre>Example: Restricted Shell Loaded from bashrc</pre>
+	</section>
+	<section id="slide22"><a class="prev" href="#slide21"></a><a class="restart" href="#start"></a><a class="next" href="#slide23"></a><a class="home" href="/"></a><pre>Pagers & Editors</pre>
+	</section>
+	<section id="slide23"><a class="prev" href="#slide22"></a><a class="restart" href="#start"></a><a class="next" href="#slide24"></a><a class="home" href="/"></a><pre>Example: Man pages</pre>
+	</section>
+	<section id="slide24"><a class="prev" href="#slide23"></a><a class="restart" href="#start"></a><a class="next" href="#slide25"></a><a class="home" href="/"></a><pre>Environment Variables</pre>
+	</section>
+	<section id="slide25"><a class="prev" href="#slide24"></a><a class="restart" href="#start"></a><a class="next" href="#slide26"></a><a class="home" href="/"></a><pre>Example: CVE-2021-31581 - Akkadian Provisioning Manager</pre>
+	</section>
+	<section id="slide26"><a class="prev" href="#slide25"></a><a class="restart" href="#start"></a><a class="next" href="#slide27"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-18-2.jpg'/></pre>
+	</section>
+	<section id="slide27"><a class="prev" href="#slide26"></a><a class="restart" href="#start"></a><a class="next" href="#slide28"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-18-5.jpg'/></pre>
+	</section>
+	<section id="slide28"><a class="prev" href="#slide27"></a><a class="restart" href="#start"></a><a class="next" href="#slide29"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-18-7.jpg'/></pre>
+	</section>
+	<section id="slide29"><a class="prev" href="#slide28"></a><a class="restart" href="#start"></a><a class="next" href="#slide30"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-18-8.jpg'/></pre>
+	</section>
+	<section id="slide30"><a class="prev" href="#slide29"></a><a class="restart" href="#start"></a><a class="next" href="#slide31"></a><a class="home" href="/"></a><pre>Embedded Systems</pre>
+	</section>
+	<section id="slide31"><a class="prev" href="#slide30"></a><a class="restart" href="#start"></a><a class="next" href="#slide32"></a><a class="home" href="/"></a><pre>IoT/Embedded Restricted Commands
+- May not even be unix-like
+- Network debugging
+  - ping/traceroute/dns lookups
+- Interaction with NVRAM
+  - read/write</pre>
+	</section>
+	<section id="slide32"><a class="prev" href="#slide31"></a><a class="restart" href="#start"></a><a class="next" href="#slide33"></a><a class="home" href="/"></a><pre>Example: NVRAM read/write</pre>
+	</section>
+	<section id="slide33"><a class="prev" href="#slide32"></a><a class="restart" href="#start"></a><a class="next" href="#slide34"></a><a class="home" href="/"></a><pre>Attack the Transport
+- Telnet/Raw TCP - generally boring
+- SSH</pre>
+	</section>
+	<section id="slide34"><a class="prev" href="#slide33"></a><a class="restart" href="#start"></a><a class="next" href="#slide35"></a><a class="home" href="/"></a><pre>SSH Subtleties when Restricting
+- Difference between exec and tty open
+- Socket redirection
+- ForceCommand
+- Subsystems
+  - SFTP defaults</pre>
+	</section>
+	<section id="slide35"><a class="prev" href="#slide34"></a><a class="restart" href="#start"></a><a class="next" href="#slide36"></a><a class="home" href="/"></a><pre>Example: CVE-2021-31580 - Akkadian Provisioning Manager
+Combines "Interactive Bash" and SSH protocol knowledge</pre>
+	</section>
+	<section id="slide36"><a class="prev" href="#slide35"></a><a class="restart" href="#start"></a><a class="next" href="#slide37"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-17.jpg'/></pre>
+	</section>
+	<section id="slide37"><a class="prev" href="#slide36"></a><a class="restart" href="#start"></a><a class="next" href="#slide38"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-19.jpg'/></pre>
+	</section>
+	<section id="slide38"><a class="prev" href="#slide37"></a><a class="restart" href="#start"></a><a class="next" href="#slide39"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-20.jpg'/></pre>
+	</section>
+	<section id="slide39"><a class="prev" href="#slide38"></a><a class="restart" href="#start"></a><a class="next" href="#slide40"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-22.jpg'/></pre>
+	</section>
+	<section id="slide40"><a class="prev" href="#slide39"></a><a class="restart" href="#start"></a><a class="next" href="#slide41"></a><a class="home" href="/"></a><pre><img src='/i/akkadian-23-resize.jpg'/></pre>
+	</section>
+	<section id="slide41"><a class="prev" href="#slide40"></a><a class="restart" href="#start"></a><a class="next" href="#slide42"></a><a class="home" href="/"></a><pre>User Environment</pre>
+	</section>
+	<section id="slide42"><a class="prev" href="#slide41"></a><a class="restart" href="#start"></a><a class="next" href="#slide43"></a><a class="home" href="/"></a><pre>SFTP enabled</pre>
+	</section>
+	<section id="slide43"><a class="prev" href="#slide42"></a><a class="restart" href="#start"></a><a class="next" href="#slide44"></a><a class="home" href="/"></a><pre>Forced commands </pre>
+	</section>
+	<section id="slide44"><a class="prev" href="#slide43"></a><a class="restart" href="#start"></a><a class="next" href="#slide45"></a><a class="home" href="/"></a><pre>Chain Primitives
+- Read + Write + Execute</pre>
+	</section>
+	<section id="slide45"><a class="prev" href="#slide44"></a><a class="restart" href="#start"></a><a class="next" href="#slide46"></a><a class="home" href="/"></a><pre>Example: Advanced LD_PRELOAD Chain</pre>
+	</section>
+	<section id="slide46"><a class="prev" href="#slide45"></a><a class="restart" href="#start"></a><a class="next" href="#slide47"></a><a class="home" href="/"></a><pre>Assisting Discovery
+- shellcheck - https://www.shellcheck.net/
+- Tcl - https://www.tcl-lang.org/ 
+- Expect - https://core.tcl-lang.org/expect/index</pre>
+	</section>
+	<section id="slide47"><a class="prev" href="#slide46"></a><a class="restart" href="#start"></a><a class="next" href="#slide48"></a><a class="home" href="/"></a><pre>Example: Expect scripts</pre>
+	</section>
+	<section id="slide48"><a class="prev" href="#slide47"></a><a class="restart" href="#start"></a><a class="next" href="#slide49"></a><a class="home" href="/"></a><pre>References / Contact
+ 
+███████████████████████████████████
+█ ▄▄▄▄▄ █▀ █▀▀█▀▀▄▄ ▄   ▄██ ▄▄▄▄▄ █
+█ █   █ █▀ ▄ █▀ ▀▄▀███▄▀▀▄█ █   █ █
+█ █▄▄▄█ █▀█ █▄▀▄▀  ▄▄  ▀▄▀█ █▄▄▄█ █
+█▄▄▄▄▄▄▄█▄█▄█ █▄▀ █ █ ▀ ▀ █▄▄▄▄▄▄▄█
+█▄ ▄▄ ▀▄ ▄ ▄█▄▄▄▄▀   ▀██▀▄▄▀▄█▄▀ ▀█
+█▀▄██ ▄▄   ▀ ▄█ ▄█▄█▀ ▀ ▀ ▀▀▄ ▄▀▄██
+█▀▀█ ▀ ▄█▄▄▀▄▀ ▄▄ ▄█ █▀ ▀█▄▀ ▄▄█▀▀█
+█▀▀▄█ ▄▄▄██▄█▀▄▄▄▄▄ █  ▄▀█   ▄█▀▄██
+██▄███▄▄▄▄ ▀█▄▄▄▄█▄█▀▀▀▄ ▄▄▀▄▄▀█ ▀█
+█ █▀▀▄▄▄▀█▀  ▄▄▀  ▄▄█  ▀▀  ▄██▄▀▄██
+█▀▀▀▄▀▄▄█▀▀▀▄▀▄▄▄  ▀▀▀█▄▀██▀█▄▀█ ▀█
+█ █    ▄▄ █▄█▀█ ▄▄█ ▀█ ▄▀    ▀ ▀▄██
+█▄█████▄▄ ▀▄█▄▄ ▄▀▄▀▀ █▄▀ ▄▄▄ ▀▀█ █
+█ ▄▄▄▄▄ █▄▄  ▄▄▀  ███▀▀▀  █▄█  ▀▄▀█
+█ █   █ █  ▀▄▀▀███ ▀▀ ▀ ▀  ▄  █████
+█ █▄▄▄█ █ █▀█▀ ▄ ▀█▀▀ ▀▀▄▄ ▄▀█  ▄██
+█▄▄▄▄▄▄▄█▄█▄█▄█▄██▄█▄███▄▄████▄█▄██
+ 
+✉ cale@hosakacorp.net</pre>
+	</section>
+	<section id="slide49"><a class="prev" href="#slide48"></a><a class="restart" href="#start"></a><a class="home" href="/"></a><pre>- https://github.com/terrorbyte/talks
+- http://www.phrack.org/issues/69/4.html
+- https://www.digitalocean.com/community/tutorials/expect-script-ssh-example-tutorial 
+- https://www.rapid7.com/blog/post/2018/06/12/r7-2018-15-cve-2018-5553-crestron-dge-100-console-command-injection-fixed/
+- https://www.rapid7.com/blog/post/2021/06/08/akkadian-provisioning-manager-multiple-vulnerabilities-disclosure/
+- https://gtfobins.github.io/</pre>
+	</section>
+	</body>
+</html>		
