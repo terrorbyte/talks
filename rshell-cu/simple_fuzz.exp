@@ -1,0 +1,11 @@
+set command [lindex $argv 0];
+spawn ./trash
+expect "$ "
+send -- "nocomplete"
+sleep 1
+send -- "\r"
+sleep 1
+send -- "$command"
+sleep 1
+send -- "\r"
+expect "not found"
