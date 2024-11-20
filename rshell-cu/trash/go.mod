@@ -1,4 +1,4 @@
-module github.com/terrorbyte/rshell-cu/trash
+module github.com/terrorbyte/talks/rshell-cu/trash
 
 go 1.22.8
 
